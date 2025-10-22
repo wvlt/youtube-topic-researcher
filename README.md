@@ -2,7 +2,7 @@
 
 **AI-Powered topic discovery for YouTube creators** - Find trending, monetizable, and high-potential content ideas with multi-dimensional AI evaluation.
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/wvlt/youtube-topic-researcher/releases/tag/v1.1.0)
+[![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)](https://github.com/wvlt/youtube-topic-researcher/releases/tag/v1.1.1)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9+-yellow.svg)](https://www.python.org/)
 

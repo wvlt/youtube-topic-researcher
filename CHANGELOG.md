@@ -79,6 +79,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] - 2025-10-22
+
+### 🐛 Bug Fixes
+- **Fixed favorite button error**: "Topic ID not found" when clicking star icon
+  - TinyDB doesn't include `doc_id` in search results by default
+  - Updated `get_topics()` to explicitly add `doc_id` to each returned topic
+  - Frontend can now properly identify and favorite topics
+
+### ⚙️ Configuration Improvements
+- **Configurable port via environment variables**:
+  - Server now reads `PORT`, `HOST`, and `DEBUG` from environment
+  - Default port changed from 8080 to 8081
+  - `scripts/run_ui.sh` automatically loads `.env` file
+  - Added comprehensive `.env.example` with all configuration options
+
+### 📚 Documentation
+- **New PORTS.md guide**: Port management for multi-agent development
+  - Port allocation table (8080-8099 reserved for agent ecosystem)
+  - Best practices for avoiding port conflicts
+  - Configuration methods (env vars, CLI, config files)
+  - Multi-agent development workflows
+  - Docker and Kubernetes examples
+- **Updated README.md**: Reflects new port (8081) and port management tips
+
+### 🔧 Technical Details
+- `src/storage/database.py`: Include `doc_id` field in all topic queries
+- `web/api.py`: Dynamic port/host configuration from environment
+- `scripts/run_ui.sh`: Environment variable loader
+- `.env.example`: Complete configuration template
+
+---
+
 ## [1.1.0] - 2025-10-22
 
 ### ⭐ Added - Favorites Feature
@@ -163,6 +195,7 @@ This is the first stable release of the YouTube Content Researcher Agent. All co
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.1.1 | 2025-10-22 | Bug fix: Favorite button + Port configuration |
 | 1.1.0 | 2025-10-22 | Favorites feature + Documentation consolidation |
 | 1.0.0 | 2025-10-22 | Stable release - Production ready |
 
