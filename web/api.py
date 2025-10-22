@@ -108,8 +108,14 @@ def analyze_competitors():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
+    # Read port and host from environment variables or use defaults
+    port = int(os.getenv('PORT', 8081))
+    host = os.getenv('HOST', '127.0.0.1')
+    debug = os.getenv('DEBUG', 'True').lower() == 'true'
+    
     print("🚀 Starting YouTube Content Researcher UI...")
-    print("📡 Server: http://localhost:8080")
+    print(f"📡 Server: http://{host}:{port}")
     print("🎨 Open in browser to use the UI")
-    app.run(debug=True, host='127.0.0.1', port=8080)
+    print(f"⚙️  Port: {port} (change via PORT env var)")
+    app.run(debug=debug, host=host, port=port)
 

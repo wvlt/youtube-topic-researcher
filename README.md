@@ -2,7 +2,7 @@
 
 **AI-Powered topic discovery for YouTube creators** - Find trending, monetizable, and high-potential content ideas with multi-dimensional AI evaluation.
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/wvlt/youtube-topic-researcher/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/wvlt/youtube-topic-researcher/releases/tag/v1.1.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9+-yellow.svg)](https://www.python.org/)
 
@@ -59,17 +59,22 @@ cd youtube-topic-researcher
 
 # 3. Configure environment
 cp .env.example .env
-# Edit .env with your API keys
+# Edit .env with your API keys and settings:
+#   - PORT=8081 (change if needed)
+#   - ANTHROPIC_API_KEY=your_key
+#   - YOUTUBE_API_KEY=your_key
 
 # 4. Add YouTube OAuth credentials
 # Download from Google Cloud Console → save as config/client_secrets.json
 
 # 5. Start the web UI
 ./scripts/run_ui.sh
-# Visit http://localhost:8080
+# Visit http://localhost:8081
 ```
 
 **That's it!** You're ready to discover amazing content topics.
+
+> 💡 **Port Conflicts?** Change `PORT=8081` in your `.env` file. See [PORTS.md](PORTS.md) for port management across multiple agents.
 
 ---
 
@@ -79,6 +84,7 @@ cp .env.example .env
 |----------|-------------|
 | [SETUP.md](SETUP.md) | Complete setup guide with troubleshooting |
 | [USAGE.md](USAGE.md) | Usage examples and workflows |
+| [PORTS.md](PORTS.md) | Port management for multi-agent development |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Developer guide, API docs, architecture |
 | [CHANGELOG.md](CHANGELOG.md) | Version history and release notes |
 

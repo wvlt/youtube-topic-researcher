@@ -89,7 +89,15 @@ class ResearchDatabase:
         if favorited_only:
             query &= Topic.favorited == True
         
-        topics = self.topics_table.search(query)
+        # Search and include doc_id in results
+        results = self.topics_table.search(query)
+        
+        # TinyDB doesn't include doc_id by default, so we need to add it
+        topics = []
+        for doc in results:
+            topic_with_id = dict(doc)
+            topic_with_id['doc_id'] = doc.doc_id
+            topics.append(topic_with_id)
         
         # Sort by total score
         topics.sort(key=lambda x: x.get('total_score', 0), reverse=True)
