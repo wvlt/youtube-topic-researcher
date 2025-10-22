@@ -1,0 +1,36 @@
+# YouTube API
+google-api-python-client>=2.103.0
+google-auth-oauthlib>=1.1.0
+google-auth-httplib2>=0.1.1
+
+# AI Providers
+openai>=1.40.0
+anthropic>=0.34.0
+
+# Data Processing
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# Database
+tinydb>=4.8.0
+
+# Utilities
+rich>=13.7.0  # Beautiful terminal output
+click>=8.1.7  # CLI framework
+pydantic>=2.5.0  # Data validation
+tenacity>=8.2.3  # Retry logic
+
+# Data Analysis
+pandas>=2.1.0
+numpy>=1.24.0
+
+# Web scraping & API
+lxml>=4.9.0
+pytrends>=4.9.0  # Google Trends
+
+# Web UI
+flask>=3.0.0
+flask-cors>=4.0.0
+

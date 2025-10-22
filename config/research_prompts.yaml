@@ -1,0 +1,131 @@
+# AI Prompts for Content Research Agent
+
+channel_analysis_prompt: |
+  You are a YouTube content strategy expert. Analyze this channel's content and audience:
+  
+  Channel: {channel_title}
+  Recent Videos: {recent_videos}
+  Top Performing: {top_videos}
+  Average Views: {avg_views}
+  Subscriber Count: {subscriber_count}
+  
+  Provide:
+  1. Channel niche and positioning
+  2. Content themes and patterns
+  3. Audience demographics and interests
+  4. Strengths and opportunities
+  5. Content gaps to fill
+
+topic_evaluation_prompt: |
+  Evaluate this content topic for the channel:
+  
+  Topic: {topic}
+  Channel Context: {channel_context}
+  Current Trends: {trends}
+  Competitor Landscape: {competitors}
+  
+  ⚠️ CRITICAL: This topic MUST be relevant to the channel's niche. If this topic is about:
+  - Music videos, songs, or entertainment (unless channel is about music)
+  - Gaming content (unless channel is about gaming)
+  - Random viral content unrelated to channel's theme
+  - Movie/TV trailers or celebrity content
+  Then give it a VERY LOW importance score (0-30).
+  
+  Rate (0-100) on these dimensions:
+  1. IMPORTANCE: Relevance to channel and audience
+     - Score 80-100: Perfect match for channel's core niche
+     - Score 60-79: Related to channel's expanded interests
+     - Score 40-59: Tangentially related
+     - Score 0-39: Not relevant to channel
+  
+  2. WATCHABILITY: View and engagement potential
+  3. MONETIZATION: Revenue potential (ads, sponsors, products)
+  4. POPULARITY: Current trend momentum
+  5. INNOVATION: Uniqueness and state-of-the-art potential
+  
+  Provide scores and detailed justification for each.
+
+topic_generation_prompt: |
+  Generate {count} high-potential content topics for this YouTube channel:
+  
+  Channel: {channel_title}
+  Niche: {niche}
+  Target Audience: {audience}
+  Recent Trends: {trends}
+  Top Keywords: {keywords}
+  
+  ⚠️ IMPORTANT: Generate topics that are SPECIFICALLY RELEVANT to the channel's niche.
+  DO NOT generate:
+  - Music video or entertainment content (unless that's the niche)
+  - Random viral trends unrelated to the channel
+  - Gaming content (unless that's the niche)
+  - Celebrity gossip or movie trailers
+  
+  INSTEAD, focus on topics that align with the channel's expertise and audience expectations.
+  
+  For each topic provide:
+  - Title idea (must relate to channel's niche)
+  - Content angle
+  - Target keywords
+  - Estimated difficulty
+  - Monetization potential
+  - Why it will work FOR THIS SPECIFIC CHANNEL
+
+competitor_analysis_prompt: |
+  Analyze these competitor channels and their successful content:
+  
+  Competitors: {competitors}
+  Top Videos: {top_videos}
+  Common Themes: {themes}
+  
+  Identify:
+  1. What makes their content successful
+  2. Content gaps they're not covering
+  3. Opportunities for differentiation
+  4. Trending formats and styles
+  5. Lessons to apply to our channel
+
+monetization_analysis_prompt: |
+  Analyze monetization potential for this topic:
+  
+  Topic: {topic}
+  Niche: {niche}
+  Audience: {audience}
+  
+  Evaluate:
+  1. Ad revenue potential (CPM estimates)
+  2. Sponsorship opportunities
+  3. Affiliate marketing potential
+  4. Product/service sales potential
+  5. Long-term value and evergreen potential
+  
+  Provide score (0-100) and recommendations.
+
+seo_optimization_prompt: |
+  Optimize this topic for YouTube search and discovery:
+  
+  Topic: {topic}
+  Target Keywords: {keywords}
+  Competition Level: {competition}
+  
+  Provide:
+  1. Optimized video titles (5 variations)
+  2. SEO-friendly description template
+  3. Tag suggestions (15-20 tags)
+  4. Thumbnail concepts
+  5. Best posting time/day
+
+trend_prediction_prompt: |
+  Analyze these trends and predict future opportunities:
+  
+  Current Trends: {current_trends}
+  Rising Keywords: {rising_keywords}
+  Industry News: {news}
+  
+  Predict:
+  1. Topics that will trend in next 30/60/90 days
+  2. Emerging niches to explore
+  3. Declining topics to avoid
+  4. Seasonal opportunities
+  5. Long-term content directions
+

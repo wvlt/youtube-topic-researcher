@@ -1,0 +1,32 @@
+# Environment
+.env
+venv/
+*.pyc
+__pycache__/
+
+# API Credentials
+config/client_secrets.json
+token.pickle
+*.pickle
+
+# Data & Logs
+data/
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+build/
+dist/
+*.egg-info/
+

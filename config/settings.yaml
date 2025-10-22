@@ -1,0 +1,93 @@
+# Content Researcher Agent Settings
+
+youtube_api:
+  max_results: 50  # Max results per API call
+  search_regions: ["US", "GB", "CA", "AU"]  # Target regions
+  search_languages: ["en"]
+  trending_categories:
+    - "0"   # Film & Animation
+    - "10"  # Music
+    - "15"  # Pets & Animals
+    - "17"  # Sports
+    - "19"  # Travel & Events
+    - "20"  # Gaming
+    - "22"  # People & Blogs
+    - "23"  # Comedy
+    - "24"  # Entertainment
+    - "25"  # News & Politics
+    - "26"  # Howto & Style
+    - "27"  # Education
+    - "28"  # Science & Technology
+
+research_criteria:
+  # Multi-dimensional scoring (0-100 each)
+  importance_weight: 0.25      # How important/relevant to channel
+  watchability_weight: 0.20    # View potential / engagement
+  monetization_weight: 0.20    # Revenue potential
+  popularity_weight: 0.20      # Current trend status
+  innovation_weight: 0.15      # Cutting-edge / unique angle
+
+  # Thresholds
+  min_total_score: 60          # Minimum combined score (0-100)
+  min_view_count: 10000        # Minimum views for reference videos
+  max_competition_level: 8     # Max competition (0-10 scale)
+
+research_depth:
+  analyze_top_performers: 10   # Analyze top N videos per topic
+  check_competitor_count: 5    # Number of competitors to analyze
+  trending_lookback_days: 30   # Days to look back for trends
+  keyword_variations: 5        # Generate N keyword variations
+
+content_filters:
+  exclude_topics:
+    - "clickbait"
+    - "controversial politics"
+    - "adult content"
+  
+  prefer_topics:
+    - "educational"
+    - "actionable insights"
+    - "evergreen content"
+    - "trending tech"
+    - "business insights"
+  
+  content_formats:
+    - "tutorials"
+    - "case studies"
+    - "deep dives"
+    - "trends analysis"
+    - "how-to guides"
+    - "interviews"
+    - "reviews"
+
+competitor_analysis:
+  track_channels: []  # Add competitor channel IDs
+  analyze_metrics:
+    - "view_count"
+    - "engagement_rate"
+    - "upload_frequency"
+    - "average_watch_time"
+    - "subscriber_growth"
+
+ai_research:
+  temperature: 0.7
+  max_tokens: 2000
+  research_prompts:
+    analyze_channel: true
+    suggest_topics: true
+    evaluate_monetization: true
+    assess_competition: true
+    generate_angles: true
+
+output_format:
+  prioritize_by: "total_score"  # total_score, monetization, popularity
+  group_by_category: true
+  include_research_notes: true
+  generate_brief: true
+
+monitoring:
+  log_level: "INFO"
+  log_file: "logs/researcher.log"
+  save_research_data: true
+  track_metrics: true
+

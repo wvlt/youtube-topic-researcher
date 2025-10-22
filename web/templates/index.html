@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Content Researcher - Command Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>🎯 Content Researcher</h1>
+                <p class="tagline">AI-Powered YouTube Topic Discovery</p>
+            </div>
+            <div class="status-indicator">
+                <span id="status-dot" class="status-dot"></span>
+                <span id="status-text">Checking...</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Research Panel -->
+            <section class="panel">
+                <h2>🔍 Start Research</h2>
+                <div class="research-form">
+                    <div class="form-group">
+                        <label>Seed Keywords (optional)</label>
+                        <input type="text" id="keywords-input" placeholder="e.g., AI, coding, tutorial (comma-separated)">
+                    </div>
+                    <div class="form-group">
+                        <label>Max Topics</label>
+                        <input type="number" id="max-topics-input" value="20" min="5" max="100">
+                    </div>
+                    <button id="start-research-btn" class="btn btn-primary">
+                        🚀 Start Research
+                    </button>
+                </div>
+                <div id="research-status" class="status-message"></div>
+            </section>
+
+            <!-- Results Panel -->
+            <section class="panel">
+                <div class="panel-header">
+                    <h2>📊 Research Results</h2>
+                    <div class="panel-actions">
+                        <button id="refresh-btn" class="btn btn-secondary">🔄 Refresh</button>
+                        <select id="filter-days">
+                            <option value="7">Last 7 days</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                        <input type="number" id="min-score" placeholder="Min Score" value="60" min="0" max="100">
+                    </div>
+                </div>
+                
+                <div id="results-container" class="results-container">
+                    <div class="empty-state">
+                        <p>No topics yet. Start a research session to discover content ideas!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Panel -->
+            <section class="panel">
+                <h2>📈 Analytics</h2>
+                <div id="analytics-container" class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-sessions">0</div>
+                        <div class="stat-label">Total Sessions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="topics-researched">0</div>
+                        <div class="stat-label">Topics Researched</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="high-quality-topics">0</div>
+                        <div class="stat-label">High Quality Topics</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avg-score">0</div>
+                        <div class="stat-label">Avg Score</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>YouTube Content Researcher Agent v1.0 | Built with ❤️ for creators</p>
+        </footer>
+    </div>
+
+    <!-- Topic Detail Modal -->
+    <div id="topic-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="topic-detail"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
+
