@@ -79,10 +79,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2025-10-22
+
+### ⭐ Added - Favorites Feature
+- **Topic favoriting/starring**: Click star icon to favorite/unfavorite any topic
+- **Favorites filter**: Toggle "⭐ Favorites Only" to view only starred topics
+- **Persistent favorites**: Favorites saved in database across sessions
+- **Visual feedback**: ☆ (not favorited) → ⭐ (favorited) with golden color
+- **Smooth UX**: Hover effects, loading states, and error handling
+- **API endpoint**: `POST /api/topics/<id>/favorite` for toggling favorites
+- **Database methods**: `toggle_favorite()`, `get_favorite_count()`
+
+### 📚 Documentation Consolidation
+- **Reduced files from 11 to 5** (55% reduction):
+  - ✅ **README.md** - Main entry point (enhanced with badges)
+  - ✅ **SETUP.md** - Complete setup guide (merged QUICKSTART + CREDENTIALS_SETUP)
+  - ✅ **USAGE.md** - Usage examples (unchanged)
+  - ✅ **CONTRIBUTING.md** - Developer guide (merged API + PROJECT_SUMMARY + DEBUG_REPORT)
+  - ✅ **CHANGELOG.md** - Version history (merged COMPLETION_REPORT + FILTERING_UPDATE)
+- **Benefits**: Easier navigation, no duplication, follows open-source conventions
+
+### 🔧 Technical Details
+- Backend: Added `favorited` boolean field to topics table
+- Frontend: JavaScript `toggleFavorite()` function with API integration
+- Styling: New CSS classes for favorite buttons and checkbox filter
+- Auto-refresh: When unfavoriting in favorites-only mode, list auto-updates
+
+---
+
 ## [Unreleased]
 
 ### 🎯 Planned Features
-- Favoriting/starring topics
 - Topic categories and tagging
 - Scheduled research jobs
 - Webhook notifications
@@ -123,11 +150,12 @@ This is the first stable release of the YouTube Content Researcher Agent. All co
 - Memory: ~100MB
 - Storage: ~1MB per 100 topics
 
-**Next Steps**:
-- Add favoriting functionality
-- Improve analytics visualizations
-- Add integration tests
-- Performance optimizations
+**Next Steps**: ✅ Complete!
+- ✅ Add favoriting functionality (v1.1.0)
+- ✅ Documentation consolidation (v1.1.0)
+- 🔜 Improve analytics visualizations
+- 🔜 Add integration tests
+- 🔜 Performance optimizations
 
 ---
 
@@ -135,6 +163,7 @@ This is the first stable release of the YouTube Content Researcher Agent. All co
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.1.0 | 2025-10-22 | Favorites feature + Documentation consolidation |
 | 1.0.0 | 2025-10-22 | Stable release - Production ready |
 
 ---
