@@ -46,6 +46,10 @@ class ResearchDatabase:
                 return -1
             
             topic['timestamp'] = datetime.now().isoformat()
+            # Initialize favorited field if not present
+            if 'favorited' not in topic:
+                topic['favorited'] = False
+            
             doc_id = self.topics_table.insert(topic)
             logger.debug(f"Saved topic: {topic.get('title', 'Unknown')} (ID: {doc_id})")
             return doc_id
@@ -57,7 +61,8 @@ class ResearchDatabase:
                    min_score: float = 0,
                    category: Optional[str] = None,
                    days: int = 30,
-                   limit: int = 100) -> List[dict]:
+                   limit: int = 100,
+                   favorited_only: bool = False) -> List[dict]:
         """
         Retrieve topics with filters
         
@@ -66,6 +71,7 @@ class ResearchDatabase:
             category: Filter by category
             days: Only topics from last N days
             limit: Max number of results
+            favorited_only: Only return favorited topics
             
         Returns:
             List of topics
@@ -80,12 +86,52 @@ class ResearchDatabase:
         if category:
             query &= Topic.category == category
         
+        if favorited_only:
+            query &= Topic.favorited == True
+        
         topics = self.topics_table.search(query)
         
         # Sort by total score
         topics.sort(key=lambda x: x.get('total_score', 0), reverse=True)
         
         return topics[:limit]
+    
+    def toggle_favorite(self, topic_id: int) -> bool:
+        """
+        Toggle favorite status of a topic
+        
+        Args:
+            topic_id: Document ID of the topic
+            
+        Returns:
+            New favorite status (True if now favorited, False if unfavorited)
+        """
+        try:
+            topic = self.topics_table.get(doc_id=topic_id)
+            if not topic:
+                logger.error(f"Topic not found: {topic_id}")
+                return False
+            
+            # Toggle the favorited status
+            new_status = not topic.get('favorited', False)
+            self.topics_table.update({'favorited': new_status}, doc_ids=[topic_id])
+            
+            logger.info(f"Topic {topic_id} favorited: {new_status}")
+            return new_status
+        except Exception as e:
+            logger.error(f"Error toggling favorite for topic {topic_id}: {e}")
+            return False
+    
+    def get_favorite_count(self) -> int:
+        """
+        Get count of favorited topics
+        
+        Returns:
+            Number of favorited topics
+        """
+        Topic = Query()
+        favorites = self.topics_table.search(Topic.favorited == True)
+        return len(favorites)
     
     def topic_exists(self, title: str, days: int = 7) -> bool:
         """

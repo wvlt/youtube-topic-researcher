@@ -59,9 +59,20 @@ def get_topics():
     try:
         days = int(request.args.get('days', 7))
         min_score = float(request.args.get('min_score', 60))
+        favorited_only = request.args.get('favorited_only', 'false').lower() == 'true'
         
-        result = agent.get_saved_topics(days=days, min_score=min_score)
+        result = agent.get_saved_topics(days=days, min_score=min_score, favorited_only=favorited_only)
         
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/topics/<int:topic_id>/favorite', methods=['POST'])
+def toggle_favorite(topic_id):
+    """Toggle favorite status of a topic"""
+    try:
+        result = agent.toggle_favorite(topic_id)
         return jsonify(result)
     
     except Exception as e:

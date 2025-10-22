@@ -81,13 +81,14 @@ class AgentWrapper:
                 'topics': []
             }
     
-    def get_saved_topics(self, days: int = 7, min_score: float = 60) -> dict:
+    def get_saved_topics(self, days: int = 7, min_score: float = 60, favorited_only: bool = False) -> dict:
         """
         Get previously researched topics
         
         Args:
             days: Days to look back
             min_score: Minimum score filter
+            favorited_only: Only return favorited topics
             
         Returns:
             Saved topics
@@ -99,7 +100,8 @@ class AgentWrapper:
             topics = self.agent.db.get_topics(
                 min_score=min_score,
                 days=days,
-                limit=100
+                limit=100,
+                favorited_only=favorited_only
             )
             
             # Ensure topics is a list
@@ -120,6 +122,36 @@ class AgentWrapper:
                 'success': False,
                 'error': str(e),
                 'topics': []
+            }
+    
+    def toggle_favorite(self, topic_id: int) -> dict:
+        """
+        Toggle favorite status of a topic
+        
+        Args:
+            topic_id: Document ID of the topic
+            
+        Returns:
+            Result with new favorite status
+        """
+        if not self.initialized:
+            raise RuntimeError("Agent not initialized")
+        
+        try:
+            new_status = self.agent.db.toggle_favorite(topic_id)
+            return {
+                'success': True,
+                'favorited': new_status,
+                'topic_id': topic_id
+            }
+        
+        except Exception as e:
+            logger.error(f"Error toggling favorite: {e}")
+            import traceback
+            traceback.print_exc()
+            return {
+                'success': False,
+                'error': str(e)
             }
     
     def get_analytics(self, days: int = 7) -> dict:

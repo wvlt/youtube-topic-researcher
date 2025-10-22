@@ -24,6 +24,7 @@ function setupEventListeners() {
     // Filter changes
     document.getElementById('filter-days').addEventListener('change', loadTopics);
     document.getElementById('min-score').addEventListener('change', loadTopics);
+    document.getElementById('favorites-only').addEventListener('change', loadTopics);
     
     // Modal close
     document.querySelector('.close').addEventListener('click', closeModal);
@@ -122,20 +123,24 @@ async function startResearch() {
 async function loadTopics() {
     const days = document.getElementById('filter-days').value;
     const minScore = document.getElementById('min-score').value;
+    const favoritesOnly = document.getElementById('favorites-only').checked;
     const container = document.getElementById('results-container');
     
     // Show loading
     container.innerHTML = '<div class="spinner"></div>';
     
     try {
-        const response = await fetch(`${API_BASE}/api/topics?days=${days}&min_score=${minScore}`);
+        const response = await fetch(`${API_BASE}/api/topics?days=${days}&min_score=${minScore}&favorited_only=${favoritesOnly}`);
         const data = await response.json();
         
         if (data.success && data.topics.length > 0) {
             currentTopics = data.topics;
             renderTopics(data.topics);
         } else {
-            container.innerHTML = '<div class="empty-state"><p>No topics found. Try adjusting filters or start a new research session.</p></div>';
+            const message = favoritesOnly 
+                ? 'No favorited topics found. Star some topics to see them here!' 
+                : 'No topics found. Try adjusting filters or start a new research session.';
+            container.innerHTML = `<div class="empty-state"><p>${message}</p></div>`;
         }
     } catch (error) {
         console.error('Failed to load topics:', error);
@@ -155,10 +160,23 @@ function renderTopics(topics) {
     
     container.innerHTML = html;
     
-    // Add click handlers
+    // Add click handlers for cards
     topics.forEach((topic, index) => {
-        document.getElementById(`topic-${index}`).addEventListener('click', () => {
-            showTopicDetail(topic);
+        const card = document.getElementById(`topic-${index}`);
+        card.addEventListener('click', (e) => {
+            // Don't open modal if clicking the star button
+            if (!e.target.closest('.favorite-btn')) {
+                showTopicDetail(topic);
+            }
+        });
+    });
+    
+    // Add click handlers for favorite buttons
+    topics.forEach((topic, index) => {
+        const btn = document.getElementById(`favorite-btn-${index}`);
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(topic, index);
         });
     });
 }
@@ -168,12 +186,21 @@ function renderTopicCard(topic, index) {
     const score = topic.total_score || 0;
     const scoreClass = score >= 80 ? 'high-score' : score >= 60 ? 'medium-score' : '';
     const scoreTag = score >= 80 ? 'high' : score >= 60 ? 'medium' : '';
+    const isFavorited = topic.favorited || false;
+    const topicIndex = currentTopics.indexOf(topic);
     
     return `
-        <div class="topic-card ${scoreClass}" id="topic-${currentTopics.indexOf(topic)}">
+        <div class="topic-card ${scoreClass}" id="topic-${topicIndex}">
             <div class="topic-header">
                 <div class="topic-title">${escapeHtml(topic.title)}</div>
-                <div class="topic-score ${scoreTag}">${score.toFixed(0)}</div>
+                <div class="topic-header-actions">
+                    <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" 
+                            id="favorite-btn-${topicIndex}"
+                            title="${isFavorited ? 'Remove from favorites' : 'Add to favorites'}">
+                        ${isFavorited ? '⭐' : '☆'}
+                    </button>
+                    <div class="topic-score ${scoreTag}">${score.toFixed(0)}</div>
+                </div>
             </div>
             <div class="topic-meta">
                 <span>📂 ${topic.category || 'General'}</span>
@@ -270,6 +297,57 @@ function showTopicDetail(topic) {
     
     detailContainer.innerHTML = html;
     modal.classList.add('show');
+}
+
+// Toggle Favorite
+async function toggleFavorite(topic, index) {
+    const btn = document.getElementById(`favorite-btn-${index}`);
+    const originalIcon = btn.textContent;
+    
+    // Show loading state
+    btn.disabled = true;
+    btn.textContent = '⏳';
+    
+    try {
+        // Get the document ID from the topic
+        const topicId = topic._id || topic.doc_id;
+        if (!topicId) {
+            throw new Error('Topic ID not found');
+        }
+        
+        const response = await fetch(`${API_BASE}/api/topics/${topicId}/favorite`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update the topic in currentTopics
+            topic.favorited = data.favorited;
+            
+            // Update button
+            btn.classList.toggle('favorited', data.favorited);
+            btn.textContent = data.favorited ? '⭐' : '☆';
+            btn.title = data.favorited ? 'Remove from favorites' : 'Add to favorites';
+            
+            // If we're in favorites-only mode and just unfavorited, reload
+            const favoritesOnly = document.getElementById('favorites-only').checked;
+            if (favoritesOnly && !data.favorited) {
+                await loadTopics();
+            }
+        } else {
+            throw new Error(data.error || 'Failed to toggle favorite');
+        }
+    } catch (error) {
+        console.error('Failed to toggle favorite:', error);
+        btn.textContent = originalIcon;
+        alert(`Failed to update favorite: ${error.message}`);
+    } finally {
+        btn.disabled = false;
+    }
 }
 
 // Close Modal
